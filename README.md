@@ -7,7 +7,7 @@ Data Science & Machine Learning
 - Lynette Wangari - lynettewangari26@gmail.com
 - Jackson Munene - jacmwaniki@gmail.com
 - Julius Kinyua - juliusczar36@gmail.com
-- Philip Oluoch - 
+- Philip Oluoch - philtonochieng254@gmail.com
 
 ## Business Understanding
 ### Overview
