@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis Project</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #0779e4 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            color: black;
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header nav ul li a{
+            color: black;
+        }
+        .main {
+            padding: 20px;
+        }
+        .visualization {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .visualization img {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .side-by-side {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .side-by-side img {
+            width: 48%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        footer {
+        background: #333;
+        color: #fff;
+        padding: 40px 20px;
+        margin-top: 30px;
+        text-align: center;
+        font-size: 14px;
+        }
+        footer h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #f4f4f4;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+        footer a {
+            color: #77aaff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Sentiment Analysis Project</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#business-understanding">Business Understanding</a></li>
+                    <li><a href="#data-understanding">Data Understanding</a></li>
+                    <li><a href="#data-preprocessing">Data Preprocessing</a></li>
+                    <li><a href="#text-vectorization">Text Vectorization</a></li>
+                    <li><a href="#model-training">Model Training</a></li>
+                    <li><a href="#model-evaluation">Model Evaluation</a></li>
+                    <li><a href="#recommendations">Recommendations</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="business-understanding" class="main">
+            <h2>Business Understanding</h2>
+            <p>
+                Our project aimed to analyze sentiment in tweets related to brands and products. Understanding public sentiment is crucial for businesses to gauge customer opinions, identify trends, and improve their offerings. We used a dataset from CrowdFlower via data.world, containing over 9,000 tweets rated by human raters for sentiment as positive, negative, or neither.
+            </p>
+        </section>
+
+        <section id="data-understanding" class="main">
+            <h2>Data Understanding</h2>
+            <p>
+                The dataset included tweets with sentiments and brand/product mentions. We explored the data to ensure its suitability for analysis. Key columns were `tweet_text`, `emotion_in_tweet_is_directed_at`, and `is_there_an_emotion_directed_at_a_brand_or_product`.
+            </p>
+            <div class="visualization">
+                <img src="img/whole_distribution.png" alt="Data Distribution Visualization">
+            </div>
+        </section>
+
+        <section id="data-preprocessing" class="main">
+            <h2>Data Preprocessing</h2>
+            <p>
+                We created a `DataPreprocessor` class for data preparation, which included:
+                <ul>
+                    <li>Renaming Columns: Renaming columns to intuitive names (`tweet`, `brand_product`, and `sentiment`).</li>
+                    <li>Mapping Sentiments: Standardizing sentiment labels to `No emotion`, `Positive`, `Negative`, and `Invalid`.</li>
+                    <li>Handling Missing Data: Filling missing `brand_product` values by identifying mentions in tweets.</li>
+                    <li>Cleaning Text: Removing punctuation and converting text to lowercase for consistency.</li>
+                </ul>
+                This preprocessing ensured clean, consistent data ready for analysis.
+            </p>
+        </section>
+
+        <section id="text-vectorization" class="main">
+            <h2>Text Vectorization</h2>
+            <p>
+                Using the `TextVectorizer` class, we transformed the cleaned tweets into numerical features with TF-IDF (Term Frequency-Inverse Document Frequency). We visualized the most frequent words in tweets using bar plots and word clouds for positive and negative sentiments, providing insights into common themes in each sentiment category.
+            </p>
+            <div class="side-by-side">
+                <img src="img/positive_distribution.png" alt="Word Distribution Positive">
+                <img src="img/negative_distribution.png" alt="Word Distribution Negative">
+            </div>
+            <div class="side-by-side">
+                <img src="img/positive_wordcount.png" alt="Word Cloud Positive">
+                <img src="img/positive_wordcount.png" alt="Word Cloud Negative">
+            </div>
+        </section>
+
+        <section id="model-training" class="main">
+            <h2>Model Training</h2>
+            <p>
+                We trained six different models with the `ModelTrainer` class:
+                <ul>
+                    <li>Naive Bayes</li>
+                    <li>Support Vector Classifier (SVC)</li>
+                    <li>Logistic Regression</li>
+                    <li>Random Forest</li>
+                    <li>Gradient Boosting</li>
+                    <li>Decision Tree</li>
+                </ul>
+                Each model was trained on TF-IDF features and sentiment labels.
+            </p>
+        </section>
+
+        <section id="model-evaluation" class="main">
+            <h2>Model Evaluation</h2>
+            <p>
+                We evaluated model performance with the `ModelEvaluator` class, providing metrics such as accuracy and ROC (Receiver Operating Characteristic) curves. ROC curves visualized trade-offs between true positive and false positive rates for each model.
+            </p>
+            <p>Accuracy results for each model were:</p>
+            <ul>
+                <li>Naive Bayes: 63.08%</li>
+                <li>SVC: 65.68%</li>
+                <li>Logistic Regression: 66.04%</li>
+                <li>Random Forest: 66.04%</li>
+                <li>Gradient Boosting: 63.44%</li>
+                <li>Decision Tree: 59.62%</li>
+            </ul>
+            <div class="visualization">
+                <img src="img/roc_curve.png" alt="ROC Curve">
+            </div>
+        </section>
+
+        <section id="recommendations" class="main">
+            <h2>Recommendations</h2>
+            <p>
+                Based on our findings, we recommend the following actions:
+                <ul>
+                    <li><b>Model Improvement:</b> Enhance model performance by collecting more labeled data, experimenting with advanced models like BERT, and fine-tuning hyperparameters of existing models.</li>
+                    <li><b>Feature Engineering:</b> Improve text preprocessing and feature extraction by including more sophisticated text-cleaning techniques and adding features such as sentiment scores from lexicons or embeddings from pre-trained language models.</li>
+                    <li><b>Real-Time Analysis:</b> Implement the sentiment analysis system in real-time to monitor tweets as they come in, allowing businesses to react promptly to customer feedback.</li>
+                    <li><b>Broader Application:</b> Extend the analysis beyond Twitter to other social media platforms to gather a more comprehensive view of public sentiment.</li>
+                    <li><b>User Feedback:</b> Incorporate user feedback to continually refine and improve the sentiment analysis system.</li>
+                </ul>
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <h2>Contributors</h2>
+        <p>Lynette Wangari - <a href="mailto:lynettewangari26@gmail.com">lynettewangari26@gmail.com</a></p>
+        <p>Jackson Munene - <a href="mailto:jacmwaniki@gmail.com">jacmwaniki@gmail.com</a></p>
+        <p>Julius Kinyua - <a href="mailto:juliusczar36@gmail.com">juliusczar36@gmail.com</a></p>
+        <p>Philip Oluoch - <a href="mailto:philtonochieng254@gmail.com">philtonochieng254@gmail.com</a></p>
+    </footer>
+</body>
+</html>
